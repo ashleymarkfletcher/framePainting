@@ -2,17 +2,21 @@ import processing.video.*;
 Movie myMovie;
 
 int numPixels;
-static final int x = 640;
-static final int y = 480;
+int x = 640;
+int y = 480;
 float currentX = 0;
 float lineWidth = 0;
+boolean saved = false;
 
 void setup() {
   size(640, 480);
-  //background(0);
+
   myMovie = new Movie(this, "free.mp4");
+  
+  //play more
   //myMovie.loop();
   myMovie.play();
+  myMovie.volume(0);
   loadPixels();
   numPixels = x * y;
   lineWidth = x/(myMovie.duration()*30);
@@ -51,10 +55,19 @@ void draw() {
      strokeWeight(lineWidth);
      line(currentX, 0, currentX, y);
      currentX += lineWidth;
-     print(lineWidth);
+     //print(lineWidth);
+     
+
    } 
    else {
     //print("nothing"); 
    } 
+   //print(round(myMovie.time()));
+   //print(round(myMovie.duration()));
+     if(round(myMovie.time()) == round(myMovie.duration()) && !saved){
+       print("END!");
+       saveFrame("export.png");
+       saved = true;
+     }
 
 }
